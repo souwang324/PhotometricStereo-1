@@ -38,7 +38,7 @@ inline WithDoubleDepth ToSphere(int x, int y, int radius2, int *center) {
   WithDoubleDepth ret;
   ret.x = x;
   ret.y = y;
-  ret.z = sqrt(radius2 - ((x - center[0]) * (x - center[0]) + (y - center[1]) * (y - center[1])));
+  ret.z = -sqrt(radius2 - ((x - center[0]) * (x - center[0]) + (y - center[1]) * (y - center[1])));
   return ret;
 }
 // ---------------------
@@ -81,13 +81,13 @@ double CalcRadius2(Mat src_mat) {
         right = x;
         break;
       }
-    }
+    } // for x
     if (!isZero) {
       int center[2] = {src_mat.cols / 2, src_mat.rows / 2};
       int middle = (left + right) / 2;
       return (middle - center[0]) * (middle - center[0]) + (y - center[1]) * (y - center[1]);
     }
-  }
+  } // for y
   return 0.0;
 }
 int GetMax(Mat src_mat) {
@@ -98,8 +98,8 @@ int GetMax(Mat src_mat) {
       if (max < pixel) {
         max = pixel;
       }
-    }
-  }
+    } // for x
+  } // for y
   return max;
 }
 } // namespace
@@ -133,7 +133,7 @@ void LightPosition::GetNorms(double **norms) {
     WithDoubleDepth vec_bottom = {0, 0, 0.0};
     for (int y = 0; y < src_mat.rows; ++y) {
       for (int x = 0; x < src_mat.cols; ++x) {
-        int pixel = (int)src_mat.at<unsigned char>(y, x);
+        const int pixel = (int)src_mat.at<unsigned char>(y, x);
         // Max region
         if (pixel == max) {
           // Top Left = First max
@@ -146,15 +146,17 @@ void LightPosition::GetNorms(double **norms) {
           }
           // Bottom right
           vec_bottom = ToSphere(x, y, radius_square, center);
-        }
-      }
-    }
+        } // if pixel == max
+      } // for x
+    } // for y
+    //cout << vec_top.x << " " << vec_top.y << " " << vec_top.z << endl;
     CalcNormal(norms[ballindex], vec_left, vec_bottom, vec_top);
+    //cout << norms[ballindex][0] << " " << norms[ballindex][1] << " " << norms[ballindex][2] << endl;
   }
   return;
 }
 int LightPosition::GetIntensity() {
-  int ret = intensities_[0];
+  const int ret = intensities_[0];
   for (int index = 1; index < num_; ++index) {
     if (ret != intensities_[index]) {
       cout << "Invalid lights for balls" << endl;
