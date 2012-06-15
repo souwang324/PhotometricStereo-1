@@ -57,7 +57,7 @@ void ObjDepth::CalcDepth(double **light_norms, int intensity) {
   Mat *src_mat = new Mat[num_];
   for (int index = 0; index < num_; ++index) {
     // Get file name
-    const string path_to_file = "Resources/" + objnames_[index];
+    const string path_to_file = "resources/" + objnames_[index];
     src_mat[index] = cv::imread(path_to_file, 0);
     if (0 < index) {
       if (src_mat[index].size != src_mat[index].size) {
@@ -72,7 +72,7 @@ void ObjDepth::CalcDepth(double **light_norms, int intensity) {
   // UpperLeft is zero
   depth_map[0] = 0;
   // Output file stream
-  std::ofstream ofs("Resources/output.txt");
+  std::ofstream ofs("resources/output.txt");
   for (int y = 0; y < src_mat[0].rows; ++y) {
     for (int x = 0; x < src_mat[0].cols; ++x) {
       Mat normal_mat = cv::Mat_<double>(3, 1);

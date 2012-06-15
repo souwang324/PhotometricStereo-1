@@ -118,7 +118,7 @@ LightPosition::~LightPosition() {
 void LightPosition::GetNorms(double **norms) {
   for (int ballindex = 0; ballindex < num_; ++ballindex) {
     // Get file name
-    const string path_to_file = "Resources/" + ballnames_[ballindex];
+    const string path_to_file = "resources/" + ballnames_[ballindex];
     // Get cv::Mat
     Mat src_mat = cv::imread(path_to_file, 0);
     // Calc radius
