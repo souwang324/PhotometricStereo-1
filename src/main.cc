@@ -13,14 +13,21 @@
 using namespace std;
 
 int main() {
+  // ボール画像ファイル名
   string ballnames[4] = {"Ball1.bmp", "Ball2.bmp", "Ball3.bmp", "Ball4.bmp"};
+  // ボール入力数
   int ballnum = sizeof(ballnames) / sizeof(ballnames[0]);
+
+  // 照明情報抽出クラス
   ps_lp::LightPosition lp = ps_lp::LightPosition(ballnames, ballnum);
+  // 照明法線
   double **light_normals = new double*[ballnum];
   for (int index = 0; index < ballnum; ++index) {
     light_normals[index] = new double[3];
   }
   lp.GetNorms(light_normals);
+
+  //
   string objnames[4] = {"Object1.bmp", "Object2.bmp", "Object3.bmp", "Object4.bmp"};
   if (ballnum != sizeof(objnames) / sizeof(objnames[0])) {
     cout << "Should be the same number: Ball and Obj" << endl;

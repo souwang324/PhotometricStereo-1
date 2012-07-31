@@ -27,7 +27,6 @@ const double kUndefinedDepth = -100;
 // Prototype Declaration
 // ---------------------
 Mat GetLightArray(double **light_norms, int num);
-double GetDepth(Mat );
 // ---------------
 // Private Methods
 // ---------------
@@ -86,26 +85,27 @@ void ObjDepth::CalcDepth(double **light_norms, int intensity) {
                 + depth_map[x - 1 + y * src_mat[0].step];
         depth_map[x + y * src_mat[0].step] = tmp;
         ofs << tmp << endl;
-
       }
       else if (0 < y){
         if (x == 0) {
-          double tmp_u = normal_mat.at<double>(1, 0) / normal_mat.at<double>(2, 0)
-                                  + depth_map[x + (y - 1) * src_mat[0].step];
+//          double tmp_u = normal_mat.at<double>(1, 0) / normal_mat.at<double>(2, 0)
+//                                  + depth_map[x + (y - 1) * src_mat[0].step];
           double tmp_ur = (- normal_mat.at<double>(0, 0) + normal_mat.at<double>(1, 0)) / normal_mat.at<double>(2, 0)
                         + depth_map[x + 1 + (y - 1) * src_mat[0].step];
-          double tmp = (tmp_u + tmp_ur) / 2.0;
+//          double tmp = (tmp_u + tmp_ur) / 2.0;
+          double tmp = tmp_ur;
           depth_map[x + y * src_mat[0].step] = tmp;
           ofs << tmp << endl;
         }
         else {
           double tmp_ul = (normal_mat.at<double>(0, 0) + normal_mat.at<double>(1, 0)) / normal_mat.at<double>(2, 0)
                     + depth_map[x - 1 + (y - 1) * src_mat[0].step];
-          double tmp_l = normal_mat.at<double>(0, 0) / normal_mat.at<double>(2, 0)
-                              + depth_map[x - 1 + y * src_mat[0].step];
-          double tmp_u = normal_mat.at<double>(1, 0) / normal_mat.at<double>(2, 0)
-                              + depth_map[x + (y - 1) * src_mat[0].step];
-          double tmp = (tmp_ul + tmp_l + tmp_u) / 3.0;
+//          double tmp_l = normal_mat.at<double>(0, 0) / normal_mat.at<double>(2, 0)
+//                              + depth_map[x - 1 + y * src_mat[0].step];
+//          double tmp_u = normal_mat.at<double>(1, 0) / normal_mat.at<double>(2, 0)
+//                              + depth_map[x + (y - 1) * src_mat[0].step];
+//          double tmp = (tmp_ul + tmp_l + tmp_u) / 3.0;
+          double tmp = tmp_ul;
           depth_map[x + y * src_mat[0].step] = tmp;
           ofs << tmp << endl;
         }
